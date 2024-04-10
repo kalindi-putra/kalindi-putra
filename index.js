@@ -4,50 +4,58 @@ function handleFormSubmit(event) {
     event.preventDefault(); // Prevent form submission
 
     // Get form values
-    const username = document.getElementById("Expense").value;
-    const email = document.getElementById("Category").value;
+    const item = document.getElementById("itemname").value;
+    const desc = document.getElementById("description").value;
+    const price= document.getElementById('price').value;
+    const quant= document.getElementById('quantity').value;
 
     // Create user object
-    const user = {
-        username: username,
-        email: email,
+    const data = {
+        item: item,
+        desc: desc,
+        price: price,
+        quant: quant
     };
+    axios.post('https://crudcrud.com/api/a9dc7f45d8944149865de5ca923b8414/project',data).then(
+        response=>{
+            console.log('Item Data saved successfully!!!',response.data);
 
+            //clearing fields after posting
+            document.getElementById("itemname").value="";
+            document.getElementById("description").value="";
+            document.getElementById('price').value="";
+            document.getElementById('quantity').value="";
+
+            
+        }
+    ).catch(error=>{
+        console.log('Error in posting Data',error)
+    })
+
+}
     // Retrieve existing users from local storage or initialize an empty array
-    let users = JSON.parse(localStorage.getItem('users')) || [];
+    function fetch()
+    {
+    axios.get('https://crudcrud.com/api/a9dc7f45d8944149865de5ca923b8414/project').then(
+        response=>{
+            const itemlist=response.data;
+            const display=document.querySelector('ul');
+            display.innerHTML="";
 
-    // Add new user to the array
-    users.push(user);
+            itemlist.forEach(it=>{
+                const listitem=document.createElement('li');
+                listitem.textContent='Item:${item} Price:${price} Quanitity:${quant}';
+                display.appendChild(listitem);
+            })
+        }
+    ).catch(error=>{
+        console.log('unable to fetch!!',error)
+    })
 
-    // Store the updated user array in local storage
-    localStorage.setItem('users', JSON.stringify(users));
+    }
 
-    // Clear form fields
-    document.getElementById("Expense").value = "";
-    document.getElementById("Category").value = "";
-    
+ document.querySelector('form').addEventListener("submit",handleFormSubmit);
 
-    // Update the user list displayed on the page
-    updateUserList(users);
-}
+ document.addEventListener('DOMContentLoaded',fetch);
 
-// Function to update the user list displayed on the page
-function updateUserList(users) {
-    const userList = document.getElementById("userList");
-
-    // Clear existing list items
-    userList.innerHTML = "";
-
-    // Iterate through each user and create list items to display their details
-    users.forEach(user => {
-        const li = document.createElement("li");
-        li.textContent = `Expense_Cateogory: ${user.username}, Amount: ${user.email}`;
-        userList.appendChild(li);
-    });
-}
-
-// Update the user list when the page loads
-window.onload = function() {
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    updateUserList(users);
-};
+ //module.exports = handleFormSubmit;
