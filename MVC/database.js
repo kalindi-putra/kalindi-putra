@@ -1,15 +1,16 @@
-const { error } = require('console');
-const sql=require('mysql2');
+//const { error } = require('console');
+const sql=require('sequelize');
 //const config=require('config');
-const connection=sql.createPool(
+const connection=new sql('test','root','oracle',
 {
-    host:'localhost',
-    port: 3306,
-    databse:'test',
-    user:'root',
-    password:'oracle'
+    dialect:'mysql',
+    host:'localhost'
 });
 
-module.exports=connection.promise();
+//console.log(connection.listenerCount())
+
+module.exports=connection;
+
+
 
 
