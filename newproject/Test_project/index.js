@@ -1,8 +1,9 @@
-const axios=require('axios');
+
+//import { Cell } from './node_modules/Cell.js';
 
 
-// Write your code below:
-// Function to handle form submission
+import axios from './node_modules/axios';
+
 
 
 function handleFormSubmit(event) {
@@ -21,7 +22,7 @@ function handleFormSubmit(event) {
         price: price,
         quant: quant
     };
-    axios.post('https://crudcrud.com/api/a9dc7f45d8944149865de5ca923b8414/project',data).then(
+    axios.post('https://crudcrud.com/api/1dc67f4680fe4d80896ecb42fc745c8d/project',data).then(
         response=>{
             console.log('Item Data saved successfully!!!',response.data);
 
@@ -41,7 +42,7 @@ function handleFormSubmit(event) {
     // Retrieve existing users from local storage or initialize an empty array
     function fetch()
     {
-    axios.get('https://crudcrud.com/api/a9dc7f45d8944149865de5ca923b8414/project').then(
+    axios.get('https://crudcrud.com/api/1dc67f4680fe4d80896ecb42fc745c8d/project').then(
         response=>{
             const itemlist=response.data;
             const display=document.querySelector('ul');
@@ -63,4 +64,4 @@ function handleFormSubmit(event) {
 
  document.addEventListener('DOMContentLoaded',fetch);
 
- module.exports = handleFormSubmit;
+ //export default handleFormSubmit;

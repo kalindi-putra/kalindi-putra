@@ -1,5 +1,7 @@
 // Write your code below:
 // Function to handle form submission
+
+
 function handleFormSubmit(event) {
     event.preventDefault(); // Prevent form submission
 
