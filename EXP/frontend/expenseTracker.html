@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+</head>
+<body>
+
+<header>
+    <h1>Expense Tracker</h1>
+</header>
+    <nav>
+        <div id="buyPremium">
+            <button id="razorPay" type="button">Buy Premium</button>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        </div>
+        <div id="message">
+         </div>
+        
+        <div id="leaderBoard">
+            <!-- Any leaderboard content here -->
+        </div>
+    </nav>
+
+    <form id="expenseForm" onsubmit="addExpense(event)">
+        <label for="amount">Amount spent:</label>
+        <input type="number" id="amount" name="amount" required>&nbsp;
+
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>&nbsp;
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="Food">Food</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Salary">Salary</option>
+            <!-- Add more options as needed -->
+        </select> &nbsp;&nbsp;
+
+        <button type="submit">Add Expense</button>
+    </form>
+
+    <div id="ExpenseList">
+        <!-- Expense list content dynamically generated -->
+    </div>
+    <div id="Leader"></div>
+
+<br>
+    <footer>
+    <div id="perPageContainer">
+        <label for="perPage">Expenses per Page:</label>
+        <select id="perPage" name="perPage">
+            <option value="2">2</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>
+    <div id="page"></div>
+    </div>
+</footer>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="expenseTracker.js"></script>
+
+</body>
+</html>

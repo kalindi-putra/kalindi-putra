@@ -1,0 +1,32 @@
+{
+  "name": "fullstack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=production RAZORPAY_KEY_ID=rzp_test_rirQjmZBf6uf04 RAZORPAY_KEY_SECRET=2l00y6SDfaevLYhaTjXcCp0D SMTP_KEY=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 aws_key=AKIAQV6KI3XN4DLV2E7V aws_secret_key=AD1J6Lk01bmDoBrcUltWEm3ZlM4SkTo4oO++How DB_USER=root DB_PASS=oracle DB_SCHEMA=test node app.js",
+    "start-server": "node app.js",
+    "start:dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1648.0",
+    "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.9.7",
+    "nodemon": "^3.1.4",
+    "razorpay": "^2.9.4",
+    "sequelize": "^6.37.3",
+    "sib-api-v3-sdk": "^8.5.0",
+    "uuid": "^10.0.0"
+  }
+}
