@@ -39,7 +39,7 @@ router.post('/',async (req,res)=>{
         })
 
 
-        const url=`http://54.234.85.131:8000/user/updatePassword/:${uid}`
+        const url=`http://52.90.248.71:3000/user/updatePassword/:${uid}`
        
         console.log(url);
        const p2=await Sib.sendPassMail(url,p.userId)

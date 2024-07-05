@@ -11,7 +11,7 @@ async function addExpense(event) {
 
     try {
 
-        const resp = await axios.post('http://54.234.85.131:8000/expense/addExpense', {
+        const resp = await axios.post('http://52.90.248.71:3000/expense/addExpense', {
             category,
             amount,
             email
@@ -42,7 +42,7 @@ async function addExpense(event) {
 async function deleteUser(Id) {
     try {
         // DELETE request to delete user
-        const res = await axios.delete(`http://54.234.85.131:8000/expense/deleteExpense/${Id}`);
+        const res = await axios.delete(`http://52.90.248.71:3000/expense/deleteExpense/${Id}`);
         window.alert(res.data.message);
 
 
@@ -60,7 +60,7 @@ async function displayExpense(curr_page=1) {
         const perPage=localStorage.getItem('perPage')
         console.log(perPage);
        // const curPage=localStorage.getItem('curPage')
-        const response = await axios.get(`http://54.234.85.131:8000/expense/fetchExpense?page=${curr_page}&perPage=${perPage}`, {
+        const response = await axios.get(`http://52.90.248.71:3000/expense/fetchExpense?page=${curr_page}&perPage=${perPage}`, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -156,7 +156,7 @@ function initiateRazorpayPayment(e) {
     const key_id = "rzp_test_rirQjmZBf6uf04"
 
     // Generate a unique order ID (You can handle this server-side)
-    axios.post('http://54.234.85.131:8000/expense/create-RazorPayId')
+    axios.post('http://52.90.248.71:3000/expense/create-RazorPayId')
         .then(function (response) {
             const { data } = response;
             const options = {
@@ -195,7 +195,7 @@ async function UpdateOrderStatus(response) {
             // token:response.data.token
         };
 
-        const resp = await axios.post('http://54.234.85.131:8000/expense/updateOrder', paymentDetails, {
+        const resp = await axios.post('http://52.90.248.71:3000/expense/updateOrder', paymentDetails, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -214,7 +214,7 @@ async function UpdateOrderStatus(response) {
 
 async function showLeader() {
     try {
-        const response = await axios.get('http://54.234.85.131:8000/premium/fetch-leaderBoard', {
+        const response = await axios.get('http://52.90.248.71:3000/premium/fetch-leaderBoard', {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -262,7 +262,7 @@ async function downLoad(event)
     try 
     {
 
-      const p1=  await axios.get('http://54.234.85.131:8000/premium/download-report',{
+      const p1=  await axios.get('http://52.90.248.71:3000/premium/download-report',{
             headers:{
                 'Authorization':localStorage.getItem('token')
             }
