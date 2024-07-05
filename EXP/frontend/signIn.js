@@ -7,7 +7,7 @@ async function SignIn(event)
     const email=document.getElementById('email').value;
     try{
 
-        const resp=await axios.post(`http://localhost:3000/expense/signInUser`,{
+        const resp=await axios.post(`http://54.234.85.131:8000/expense/signInUser`,{
             email,
             pass
         })

@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const model = require('../model/User');
+const path=require('path')
+// Constructing a path to your User module
+const userModelPath = path.join(__dirname, '..', 'model', 'User');
+// const User = require(userModelPath);
+
+
+const model = require(userModelPath);
+
+//const model = require('../model/user');
 const bc=require('bcrypt')
 const jwt=require('jsonwebtoken')
 

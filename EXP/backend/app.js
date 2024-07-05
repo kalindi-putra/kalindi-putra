@@ -1,6 +1,7 @@
 const exp=require('express');
 const cor=require('cors');
 app=exp();
+const path=require('path')
 const fs=require('fs')
 const Order=require('./model/order')
 const User=require('./model/user')
@@ -84,9 +85,13 @@ Forg.belongsTo(User, { foreignKey: 'userId', targetKey:'userId' });
 
 
 
-app.get('/',(req,res)=>{
-    res.status(200).json("thanks for visiting backend")
+app.get((req,res)=>{
+   // res.status(200).json("thanks for visiting backend")
+   res.status(200).sendFile(path.join(__dirname,''))
 })
+
+
+
 
 app.listen(3000,()=>
 {
