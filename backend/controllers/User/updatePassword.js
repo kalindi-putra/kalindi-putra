@@ -35,7 +35,7 @@ router.get('/:token', async (req, res) => {
             }
         </script>
 
-        <form action="http://52.90.248.71:3000/user/updatePassword/${token}" method="post">
+        <form action="http://18.232.215.9:3000/user/updatePassword/${token}" method="post">
             <label for="newpassword">Enter New password</label>
             <input name="newpassword" type="password" required></input>
             <button>reset password</button>
