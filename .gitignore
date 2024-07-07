@@ -3,3 +3,4 @@ node_modules/
 nodemon.json
 keys.js
 my web.pem
+EC2.pem
