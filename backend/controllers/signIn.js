@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path=require('path')
 // Constructing a path to your User module
-const userModelPath = path.join(__dirname, '..', 'model', 'User');
+const userModelPath = path.join(__dirname, '..', 'model', 'user');
 // const User = require(userModelPath);
 
 

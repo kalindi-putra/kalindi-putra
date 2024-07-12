@@ -82,12 +82,14 @@ User.hasMany(Forg,{foreignKey:'userId'})
 Forg.belongsTo(User, { foreignKey: 'userId', targetKey:'userId' });
 
 
+app.use(exp.static(path.join(__dirname, 'public')));
 
 
 
-app.get((req,res)=>{
+app.get('/',(req,res)=>{
    // res.status(200).json("thanks for visiting backend")
-   res.status(200).sendFile(path.join(__dirname,''))
+   console.log(req.url);
+   res.status(200).sendFile(path.join(__dirname,'public',req.url))
 })
 
 
