@@ -12,11 +12,9 @@ async function SignIn(event)
             pass
         })
         alert(resp.data.message)
-      //  console.log('Token',resp.data.Token);
 
     localStorage.setItem('token',resp.data.Token)
 
-   // checkPremium()
 
     window.location.href = `expenseTracker.html`;
 
@@ -24,8 +22,7 @@ async function SignIn(event)
     }
     catch(e)
     {
-        alert(e.response.data.message);
-        console.log(e.response);
+        alert("Some error occured , please try in sometime");
     }
 
 

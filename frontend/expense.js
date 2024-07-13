@@ -15,7 +15,6 @@ async function addUser(event)
     })
 
         alert(resp.data.message)
-        console.log(resp.data);
 
       //  displayExpense()
 
@@ -23,7 +22,6 @@ async function addUser(event)
     catch(e)
     {
         alert(e.response.data.message);
-        console.log(e);
     }
 }
 document.getElementById('Expense app').addEventListener('submit', addUser);

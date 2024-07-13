@@ -25,7 +25,6 @@ async function addExpense(event) {
         )
 
 
-        console.log(resp);
         alert(resp.data.message);
 
         displayExpense()
@@ -33,7 +32,6 @@ async function addExpense(event) {
     }
 
     catch (err) {
-        console.log(err);
         alert(err.data.message);
     }
 
@@ -51,14 +49,12 @@ async function deleteUser(Id) {
     } catch (error) {
 
         alert(error.response.message);
-        console.log('Error deleting user:', error);
     }
 }
 
 async function displayExpense(curr_page=1) {
     try {
         const perPage=localStorage.getItem('perPage')
-        console.log(perPage);
        // const curPage=localStorage.getItem('curPage')
         const response = await axios.get(`http://18.232.215.9:3000/expense/fetchExpense?page=${curr_page}&perPage=${perPage}`, {
             headers: {
@@ -66,7 +62,6 @@ async function displayExpense(curr_page=1) {
             }
         });
 
-        console.log('Fetched response from Expesne  \n',response.data);
 
         // Handle premium user UI changes
         if (response.data.IsPremium === true) {
@@ -80,7 +75,6 @@ async function displayExpense(curr_page=1) {
             document.getElementById('leaderBoard').appendChild(downloadBtn);
         }
 
-       // console.log("FETCH EXPENSE DATA >>>\n", response);
 
         // Display fetched expenses
         const expenses = response.data.exp.rows;
@@ -112,7 +106,7 @@ async function displayExpense(curr_page=1) {
         appendPaginationButtons(currentPage, totalPages);
 
     } catch (error) {
-        console.log('Error fetching expenses:', error);
+        alert('Error fetching expenses');
         // Handle error if needed
     }
 }
@@ -166,7 +160,6 @@ function initiateRazorpayPayment(e) {
                 order_id: data.id,
                 handler: async function (response) {
                     alert('Payment successful');
-                    console.log(response);
 
                     const up = await UpdateOrderStatus(response)
 
@@ -181,7 +174,7 @@ function initiateRazorpayPayment(e) {
             rzp.open();
         })
         .catch(function (error) {
-            console.error('Error creating Razorpay order:', error);
+            alert("Payment failed , pls try again")
         });
 }
 
@@ -206,7 +199,6 @@ async function UpdateOrderStatus(response) {
     }
     catch (e) {
         alert(e.response.data.message)
-        console.log(e.response);
     }
 
 }
@@ -251,7 +243,8 @@ leaderboardElement.appendChild(headingElement);
 
     catch (error) {
 
-        console.log(error);
+        alert("Opps some error")
+
 
     }
 }
@@ -267,7 +260,6 @@ async function downLoad(event)
                 'Authorization':localStorage.getItem('token')
             }
         })
-        console.log(p1);
         const downloadUrl=p1.data.url
 
         const a = document.createElement('a');
@@ -283,7 +275,6 @@ async function downLoad(event)
     
     catch (error) {
         
-        console.log(error);
 
         alert(error.response.data.message)
     }
