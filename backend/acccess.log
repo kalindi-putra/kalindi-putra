@@ -281,3 +281,4 @@
 ::1 - - [10/Jul/2024:18:59:05 +0000] "GET /login.html HTTP/1.1" 200 841 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 ::1 - - [10/Jul/2024:18:59:05 +0000] "GET /login.js HTTP/1.1" 200 773 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
 ::1 - - [10/Jul/2024:18:59:05 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+::1 - - [14/Jul/2024:13:29:55 +0000] "POST /expense/adduser HTTP/1.1" 201 33 "http://127.0.0.1:5500/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"

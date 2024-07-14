@@ -24,6 +24,7 @@ async function SignIn(event)
     {
         alert("Some error occured , please try in sometime");
     }
+    document.getElementById("Sign In").reset(); // Resets the form
 
 
 }

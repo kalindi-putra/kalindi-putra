@@ -9,13 +9,17 @@ const auth=require('../middleware/auth')
 router.post('/',auth,async (req,res)=>{
     try{
        console.log('In add expense');
-
         console.log(req.body);
 
       const {
         category,
         amount,
       }=req.body
+
+      if(amount <= 0 || amount.length > 8 )
+      {
+        return res.status(201).json({message:"Enter Valid Amount"})
+      }
 
       const userId=await user.findByPk(req.user.userId)
 

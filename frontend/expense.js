@@ -23,5 +23,9 @@ async function addUser(event)
     {
         alert(e.response.data.message);
     }
+
+    document.getElementById("Expense app").reset(); // Resets the form
+
 }
+
 document.getElementById('Expense app').addEventListener('submit', addUser);
