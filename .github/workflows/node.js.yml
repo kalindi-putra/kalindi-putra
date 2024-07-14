@@ -32,4 +32,4 @@ jobs:
           git pull origin EXP  # Update code from the EXP branch
           npm install          # Install dependencies
           npm run build        # Build your application
-          pm2 restart /EXP/Web-dev-learning/backend # Restart your application using PM2 or another process manager
+          pm2 restart /EXP/Web-dev-learning/backend/app.js # Restart your application using PM2 or another process manager
