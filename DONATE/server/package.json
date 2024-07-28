@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start":"pm2 start app.js",
+    "restart":"pm2 restart app.",
+    "stop": "pm2 stop all",
+    "start-dev":"nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7",
+    "pdfkit": "^0.15.0",
+    "pg": "^8.12.0",
+    "pm2": "^5.4.2",
+    "razorpay": "^2.9.4",
+    "router": "^1.3.8",
+    "sendgrid": "^5.2.3",
+    "sequelize": "^6.37.3",
+    "stripe": "^16.4.0"
+  }
+}
