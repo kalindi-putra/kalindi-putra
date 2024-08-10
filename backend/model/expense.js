@@ -1,38 +1,30 @@
-const { Sequelize, DataTypes} = require('sequelize');
-const {sequelize }=require('../util/db')
-const User=require('./user')
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+const User = require('./user'); // Ensure User model is correctly imported
 
-const Expense = sequelize.define('Expense', {
-    expenseId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true // Optional, if you want this field to auto-increment
-      },
-    expenseName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    amount:{
-        type:DataTypes.INTEGER,
-        allowNull:false
-    },
-    userId:{
-        type:DataTypes.INTEGER,
-        allowNull:false
+// Define the Expense schema
+const expenseSchema = new Schema({
+  expenseId: {
+    type: Schema.Types.UUID,
+    default: mongoose.Types.UUID, // Use UUID for unique identifiers
+    required: true,
+    unique: true // Ensure Id is unique
+  },
+  expenseName: {
+    type: String,
+    required: true
+  },
+  amount: {
+    type: Number,
+    required: true
+  },
+  userId: {
+    type: Schema.Types.UUID,
+    ref: 'User', // Reference to the User model
+    required: true
+  }
+});
 
-    }
-  });
-//creating relation 
+const Expense = mongoose.model('Expense', expenseSchema);
 
-
-
-(async ()=>{
-    try{ 
-        await  sequelize.sync({force:false}) 
-        console.log('model sync success');
-}
-    catch(err){
-        console.log(err);}
-})();
-
-module.exports=Expense;
+module.exports = Expense;

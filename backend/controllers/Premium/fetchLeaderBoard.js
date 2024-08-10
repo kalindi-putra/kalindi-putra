@@ -1,36 +1,23 @@
 const express = require('express');
 const router = express.Router();
-//const model = require('../model/expense');
-const user=require('../../model/user')
-const order=require('../../model/order')
-const auth=require('../../middleware/auth')
+const User = require('../../model/user'); // Import your User model
+const auth = require('../../middleware/auth'); // Import your authentication middleware
 
-
-router.get('/',auth,async(req,res)=>{
-
+router.get('/', auth, async (req, res) => {
     try {
-      const p=  await user.findAll({
-            attributes:[
-                  'userId','totalExpense','name'
-            ],
-            order: [
-                ['totalExpense', 'DESC'] // Order by totalExpense in descending order
-            ]
-        })
+        // Fetch all users, select specific fields, and sort by totalExpense in descending order
+        const users = await User.find({})
+            .select('totalExpense name') // Specify fields to include
+            .sort({ totalExpense: -1 }) // Sort by totalExpense in descending order
+            .exec();
 
-        console.log(JSON.stringify(p));
+        console.log(JSON.stringify(users));
 
-        res.status(200).json(p)
-
-    } 
-    
-    catch (error)
-     {
-
+        res.status(200).json(users);
+    } catch (error) {
         console.log(JSON.stringify(error));
-        res.status(500).json(error)
+        res.status(500).json(error);
     }
+});
 
-})
-
-module.exports=router
+module.exports = router;

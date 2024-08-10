@@ -1,35 +1,26 @@
-const { Sequelize, DataTypes} = require('sequelize');
-const {sequelize }=require('../util/db')
-const User=require('./user')
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const Order = sequelize.define('Order', {
-    OrderId: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-        //autoIncrement: true // Optional, if you want this field to auto-increment
-      },
-    OrderStatus: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    userId:{
-      type:DataTypes.INTEGER,
-      allowNull:false
-
+// Define the Order schema
+const orderSchema = new Schema({
+  OrderId: {
+    type: String,
+    required: true,
+    unique: true // Ensure OrderId is unique
+  },
+  OrderStatus: {
+    type: String,
+    
+  },
+  userId: {
+    type: Schema.Types.UUID,
+    ref: 'User', // Reference to the User model
+    required: true
   }
+});
 
-  });
-//creating relation 
+// Create the Order model
+const Order = mongoose.model('Order', orderSchema);
 
+module.exports = Order;
 
-
-(async ()=>{
-    try{ 
-        await  sequelize.sync({force:false}) 
-        console.log('model sync success');
-}
-    catch(err){
-        console.log(err);}
-})();
-
-module.exports=Order;

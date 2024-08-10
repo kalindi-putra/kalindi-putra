@@ -8,7 +8,7 @@ async function addUser(event)
     const pass=document.getElementById('password').value;
     try{
 
-        const resp=await axios.post('http://18.232.215.9:3000/expense/adduser',
+        const resp=await axios.post('http://localhost:8000/expense/adduser',
        { name,
         email,
         pass

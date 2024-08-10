@@ -11,7 +11,7 @@ async function addExpense(event) {
 
     try {
 
-        const resp = await axios.post('http://18.232.215.9:3000/expense/addExpense', {
+        const resp = await axios.post('http://localhost:8000/expense/addExpense', {
             category,
             amount,
             email
@@ -27,7 +27,7 @@ async function addExpense(event) {
 
         alert(resp.data.message);
 
-        displayExpense()
+       displayExpense()
 
     }
 
@@ -40,23 +40,26 @@ async function addExpense(event) {
 async function deleteUser(Id) {
     try {
         // DELETE request to delete user
-        const res = await axios.delete(`http://18.232.215.9:3000/expense/deleteExpense/${Id}`);
+
+
+        
+        const res = await axios.delete(`http://localhost:8000/expense/deleteExpense/${Id}`);
         window.alert(res.data.message);
 
 
         // Display updated user details
-        displayUsers();
+     displayUsers();
     } catch (error) {
 
         alert(error.response.message);
     }
 }
 
-async function displayExpense(curr_page=1) {
+async function displayExpense(curr_page = 1) {
     try {
-        const perPage=localStorage.getItem('perPage')
-       // const curPage=localStorage.getItem('curPage')
-        const response = await axios.get(`http://18.232.215.9:3000/expense/fetchExpense?page=${curr_page}&perPage=${perPage}`, {
+        const perPage = localStorage.getItem('perPage')
+        // const curPage=localStorage.getItem('curPage')
+        const response = await axios.get(`http://localhost:8000/expense/fetchExpense?page=${curr_page}&perPage=${perPage}`, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -74,10 +77,10 @@ async function displayExpense(curr_page=1) {
             downloadBtn.onclick = downLoad;
             document.getElementById('leaderBoard').appendChild(downloadBtn);
         }
-
+     console.log(response.data)
 
         // Display fetched expenses
-        const expenses = response.data.exp.rows;
+        const expenses = response.data.expenses;
         const userList = document.getElementById('ExpenseList');
         userList.innerHTML = '';
 
@@ -91,8 +94,7 @@ async function displayExpense(curr_page=1) {
                 itemElement.innerHTML = `
                     <p>Expense Item: ${expense.expenseName}
                        Amount: ${expense.amount}
-                       User_id: ${expense.userId}
-                       <button onclick="deleteUser(${expense.expenseId})">Delete</button>
+                       <button onclick="deleteUser('${expense._id}')">Delete</button>
                     </p>
                 `;
                 userList.appendChild(itemElement);
@@ -118,7 +120,7 @@ function appendPaginationButtons(currentPage, totalPages) {
     if (currentPage > 1) {
         const prevButton = document.createElement('button');
         prevButton.textContent = 'Previous';
-        prevButton.addEventListener('click', function() {
+        prevButton.addEventListener('click', function () {
             displayExpense(currentPage - 1);
         });
         perPageContainer.appendChild(prevButton);
@@ -127,7 +129,7 @@ function appendPaginationButtons(currentPage, totalPages) {
     if (currentPage < totalPages) {
         const nextButton = document.createElement('button');
         nextButton.textContent = 'Next';
-        nextButton.addEventListener('click', function() {
+        nextButton.addEventListener('click', function () {
             displayExpense(currentPage + 1);
         });
         perPageContainer.appendChild(nextButton);
@@ -150,7 +152,7 @@ function initiateRazorpayPayment(e) {
     const key_id = "rzp_test_rirQjmZBf6uf04"
 
     // Generate a unique order ID (You can handle this server-side)
-    axios.post('http://18.232.215.9:3000/expense/create-RazorPayId')
+    axios.post('http://localhost:8000/expense/create-RazorPayId')
         .then(function (response) {
             const { data } = response;
             const options = {
@@ -188,7 +190,7 @@ async function UpdateOrderStatus(response) {
             // token:response.data.token
         };
 
-        const resp = await axios.post('http://18.232.215.9:3000/expense/updateOrder', paymentDetails, {
+        const resp = await axios.post('http://localhost:8000/expense/updateOrder', paymentDetails, {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -206,7 +208,7 @@ async function UpdateOrderStatus(response) {
 
 async function showLeader() {
     try {
-        const response = await axios.get('http://18.232.215.9:3000/premium/fetch-leaderBoard', {
+        const response = await axios.get('http://localhost:8000/premium/fetch-leaderBoard', {
             headers: {
                 'Authorization': localStorage.getItem('token')
             }
@@ -220,11 +222,11 @@ async function showLeader() {
         leaderboardElement.innerHTML = '';
 
         const headingElement = document.createElement('h2');
-headingElement.textContent = 'Leaderboard';
-  
+        headingElement.textContent = 'Leaderboard';
 
-// Append the heading to the leaderboard container
-leaderboardElement.appendChild(headingElement);
+
+        // Append the heading to the leaderboard container
+        leaderboardElement.appendChild(headingElement);
 
         // Create elements to display leaderboard
         leaderboardData.forEach(entry => {
@@ -239,45 +241,54 @@ leaderboardElement.appendChild(headingElement);
 
 
 
+
+
+
+
+
     }
 
     catch (error) {
 
-        alert("Opps some error")
-
+        alert("Oops some error")
 
     }
 }
 
-async function downLoad(event)
-{
+async function downLoad(event) {
     event.preventDefault();
-    try 
-    {
+    try {
 
-      const p1=  await axios.get('http://18.232.215.9:3000/premium/download-report',{
-            headers:{
-                'Authorization':localStorage.getItem('token')
+        const p1 = await axios.get('http://localhost:8000/premium/download-report', {
+            headers: {
+                'Authorization': localStorage.getItem('token')
             }
         })
-        const downloadUrl=p1.data.url
+        const downloadUrl = p1.data.url
 
         const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = 'expense_report.txt'; // Specify the default filename for download
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+        a.href = downloadUrl;
+        a.download = `expense_report.txt`; // Specify the default filename for download
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
 
-       // -
+
     }
-    
+
     catch (error) {
-        
+
 
         alert(error.response.data.message)
     }
+}
+
+function logout() {
+    localStorage.clear()
+
+    // Redirect to the login page or home page
+    window.location.href = 'existinguser.html'; // Adj
 }
 
 
@@ -286,15 +297,24 @@ function handlePerPageChange() {
     const perPage = document.getElementById('perPage').value;
 
     localStorage.setItem('perPage', perPage);
-     // Store perPage preference in localStorage
-     displayExpense()
-            }
+    // Store perPage preference in localStorage
+   displayExpense()
+}
 
 
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+
+    const logoutButton = document.getElementById('logoutButton');
+    if (token) {
+        logoutButton.style.display = 'block';
+        logoutButton.addEventListener('click', logout);
+    } else {
+        logoutButton.style.display = 'none';
+    }
+
+  displayExpense();
 
     document.getElementById('perPage').addEventListener('change', handlePerPageChange);
-    displayExpense()
-
-})
+});
 

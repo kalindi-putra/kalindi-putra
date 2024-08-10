@@ -9,14 +9,13 @@ const auth=require('../../middleware/auth')
 router.get('/',auth,async(req,res)=>{
 
     try {
-        const p=await user.findOne({
-            attributes:['isPremium','name'],
+        const id=req.user.userId
+        const user = await User.findOne(
+            { userId: id }, // Query filter
+            { isPremium: 1, name: 1 } // Projection object
+          ).exec();
 
-            where:{
-                userId:req.user.userId
-            }
-
-        })
+        
 
         console.log('\nPrinting record from user in checkPremium >>> \n',JSON.stringify(p));
         if(p.IsPremium==true)

@@ -1,96 +1,83 @@
 const express = require('express');
 const router = express.Router();
-const model = require('../model/expense');
-const user=require('../model/user')
-const { Sequelize, DataTypes} = require('sequelize');
-const auth=require('../middleware/auth')
+const Expense = require('../model/expense'); // Your Mongoose model for expenses
+const User = require('../model/user'); // Your Mongoose model for users
+const auth = require('../middleware/auth');
 
-router.get('/',auth, async (req,res)=>{
-    try{
-        console.log('\nIn the fetch expense >>\n');
-            
-        //
-        const page = parseInt(req.query.page) || 1; // Default page 1 if not provided
-        const perPage = parseInt(req.query.perPage) || 2; // Default 10 expenses per page
+// Route to fetch expenses
+router.get('/', auth, async (req, res) => {
+  try {
+    console.log('\nIn the fetch expense >>\n');
 
-        // Calculate offset for pagination
-        const offset = (page - 1) * perPage;
+    // Pagination settings
+    const page = parseInt(req.query.page) || 1; // Default page 1 if not provided
+    const perPage = parseInt(req.query.perPage) || 2; // Default 2 expenses per page
 
-        // Query to fetch expenses for the current user
-        const exp = await model.findAndCountAll({
-            where: { userId: req.user.userId },
-            limit: perPage,
-            offset: offset,
-            order: [['createdAt', 'DESC']], // Example order by createdAt descending
-        });
+    // Calculate offset for pagination
+    const skip = (page - 1) * perPage;
 
-     //console.log({exp:exp,IsPremium:p.IsPremium})
+    // Query to fetch expenses for the current user
+    const expenses = await Expense.find({ userId: req.user.userId })
+      .sort({ createdAt: -1 }) // Order by createdAt descending
+      .skip(skip)
+      .limit(perPage);
 
-     const totalCount = exp.count;
-        const totalPages = Math.ceil(totalCount / perPage);
+    const totalCount = await Expense.countDocuments({ userId: req.user.userId });
+    const totalPages = Math.ceil(totalCount / perPage);
 
+    const userDetails = await User.findOne({ userId: req.user.userId });
 
-     const p2=await user.findOne({where:{
-       userId:req.user.userId
-     }})
+    console.log(2)
 
-       //for premium user , creating the leaderboard
-      const p3= await model.findAll({
-        attributes: [
-          'userId',
-          [Sequelize.fn('SUM', Sequelize.col('amount')), 'totalExpense']
-      ],
-      group: ['userId']
-       })
-       
-       let p4;
-       for(let i=0;i<p3.length;i++)
-       {
-           if(p3[i].dataValues.userId==req.user.userId)
-           {
+    // Aggregate total expenses for each user
+    const aggregateResult = await Expense.aggregate([
+      { $match: {} }, // Match all documents
+      { $group: { _id: "$userId", totalExpense: { $sum: "$amount" } } }
+    ]);
 
-           p4=await user.update({
-              totalExpense:p3[i].dataValues.totalExpense
-             },{
-              where:{
-                userId:req.user.userId
-              }
-             })
-         
+    console.log(3)
 
-           }
-       }
-
-      // console.log('\n>>>>>>>>>>>P4\n',p4);
-       
-       await Promise.all([exp,p2,p3,p4]).then(()=>{
-
-        return res.status(200).json({
-          exp:exp,
-          totalPages: totalPages,
-          currentPage: page,
-          isNext:page < totalPages ? 1:0,
-          isPrev:page > 1 ? 1:0,
-          IsPremium:p2.isPremium,
-
-        })
-
-       }).catch(err=>{
-
-        console.log(err);
-        res.status(401).json({message:'Error in , pls try again !!'})
-        
-       })
-
-
-
-
+    // Find the user's total expense
+    let userTotalExpense = 0;
+    for (const result of aggregateResult) {
+      if (result._id.toString() === req.user.userId) {
+        userTotalExpense = result.totalExpense;
+        break;
+      }
     }
-    catch(e){
-        
-        console.log(e);
-      res.status(500).json({message:"Internal Server Error"});
-}
+
+    // Update the user with the total expense
+    await User.updateOne(
+      { userId: req.user.userId },
+      { totalExpense: userTotalExpense }
+    );
+
+    console.log({
+      expenses: expenses,
+      totalPages: totalPages,
+      currentPage: page,
+      isNext: page < totalPages ? 1 : 0,
+      isPrev: page > 1 ? 1 : 0,
+      IsPremium: userDetails.isPremium,
+    })
+    
+    
+
+    return res.status(200).json({
+      expenses: expenses,
+      totalPages: totalPages,
+      currentPage: page,
+      isNext: page < totalPages ? 1 : 0,
+      isPrev: page > 1 ? 1 : 0,
+      IsPremium: userDetails.isPremium,
+    });
+
+
+
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
-module.exports=router;
+module.exports = router;

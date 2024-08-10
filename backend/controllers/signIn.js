@@ -3,12 +3,9 @@ const router = express.Router();
 const path=require('path')
 // Constructing a path to your User module
 const userModelPath = path.join(__dirname, '..', 'model', 'user');
-// const User = require(userModelPath);
-
 
 const model = require(userModelPath);
 
-//const model = require('../model/user');
 const bc=require('bcrypt')
 const jwt=require('jsonwebtoken')
 
@@ -32,7 +29,7 @@ router.post('/',async (req,res)=>{
        return  res.status(204).json("Pls fill all values");
        }
 
-       const User= await model.findOne({ where:{ email:email }})
+       const User= await model.findOne({email})
      //  console.log(User);
 
        if(User==null)

@@ -9,16 +9,9 @@ const ForgotPassword = require('../../model/forgotPassword');
 router.get('/:token', async (req, res) => {
     try {
        const  token  = req.params.token;
-      //  const { newPassword } = req.body.uid;
-
-       // console.log('logging new password>>>');
-
-        // Find reset token in database
         const resetRecord = await ForgotPassword.findOne({
-            where: {
-                Id: token.substring(1),
-            }
-        });
+         
+                Id: token.substring(1) });
 
         console.log(resetRecord);
 
@@ -35,7 +28,7 @@ router.get('/:token', async (req, res) => {
             }
         </script>
 
-        <form action="http://18.232.215.9:3000/user/updatePassword/${token}" method="post">
+        <form action="http://localhost:8000/user/updatePassword/${token}" method="post">
             <label for="newpassword">Enter New password</label>
             <input name="newpassword" type="password" required></input>
             <button>reset password</button>
@@ -91,9 +84,9 @@ console.log('IN UPDATE PASSWORD BLOC >>>> \n');
     try {
         // Find reset token in database
         const resetRecord = await ForgotPassword.findOne({
-            where: {
+
                 Id: token.substring(1),
-            }
+            
         });
 
         if (!resetRecord) {
@@ -101,7 +94,7 @@ console.log('IN UPDATE PASSWORD BLOC >>>> \n');
         }
 
         // Find user by userId
-        const user = await User.findByPk(resetRecord.userId);
+        const user = await User.findOne({userId:resetRecord.userId});
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });

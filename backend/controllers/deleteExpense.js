@@ -1,42 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const model = require('../model/expense');
+const Expense = require('../model/expense'); // Ensure this points to your Mongoose model
 
+// Delete an expense by ID
+router.delete('/:id', async (req, res) => {
 
-router.delete('/:Id',async(req,res)=>{
+    console.log(req.params)
 
-    try{
-        const expId=await model.findByPk(req.params.Id);
-        if(!expId)
-        {
-           return res.status(404).json({message:"Expense not found!!"})
+    const id = req.params.id; // Mongoose will use _id by default
+
+    try {
+        // Find the expense by ID
+        const expense = await Expense.findById(id);
+        if (!expense) {
+            return res.status(404).json({ message: 'Expense not found!' });
         }
-        const del=await model.destroy({
-            where:{
-                expenseId:expId.expenseId
-            }
-        })
 
-            if(del===1)
-            {
-                return res.status(200).json({
-                    message:"Expense deleted successfully!!!"
-                })
-            }
-            else{
-                return res.status(401).json({
-                    message:"Unable to delete expense!!!"
-                })
-            }
-        
-    }
-    catch(e)
-    {
-        res.status(500).json({
-            message:"Internal Error!!!",
-            error:e
-        })
-    }
-})
+        // Delete the expense
+        await Expense.findByIdAndDelete(id);
 
-module.exports=router
+        // Send success response
+        return res.status(200).json({ message: 'Expense deleted successfully!' });
+    } catch (e) {
+        console.error(e); // Log error for debugging
+        return res.status(500).json({
+            message: 'Internal Error!',
+            error: e.message
+        });
+    }
+});
+
+module.exports = router;

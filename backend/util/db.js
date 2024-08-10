@@ -1,20 +1,23 @@
-const { Sequelize } = require('sequelize');
-const key=require('../util/keys')
-// Initialize Sequelize with your database credentials
-const sequelize = new Sequelize(key.DB_SCHEMA , key.DB_USER,key.DB_PASS, {
-  host: 'mysql-21097ff9-divyeshpandey47-8fd7.c.aivencloud.com',
-  dialect: 'mysql',
-  port:"24538" // or any other dialect such as postgres, sqlite, etc.
-});
+const mongoose = require('mongoose');
+const key = require('../util/keys');
 
-// Test the connection
-sequelize
-  .authenticate()
-  .then((res) => {
-    console.log('Connection has been established successfully.',res);
+// Initialize Mongoose with your MongoDB connection string
+const mongoUri = `mongodb://localhost:27017/admin`;
+
+// Connect to MongoDB
+const run= async()=>{
+  await mongoose.connect(mongoUri, {
+})
+  .then(() => {
+    console.log('Connection has been established successfully.');
   })
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
-  
-module.exports={sequelize};
+}
+
+//run()
+
+
+// Export the Mongoose connection
+module.exports = run;

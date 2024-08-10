@@ -1,41 +1,38 @@
-const { Sequelize, DataTypes} = require('sequelize');
-const {sequelize }=require('../util/db')
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const Users = sequelize.define('Users', {
-    userId: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true // Optional, if you want this field to auto-increment
-      },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-     // unique: true
-    },
-    password:{
-        type:DataTypes.STRING,
-        allowNull:false
-    },
-    isPremium:{
-        type:DataTypes.BOOLEAN,
-        defaultValue:false
-    }
-    ,
-   totalExpense:{
-      type:DataTypes.INTEGER,
-    }
-  });
-(async ()=>{
-    try{ 
-        await  sequelize.sync({force:false}) 
-        console.log('model sync success');
-}
-    catch(err){
-        console.log(err);}
-})();
+// Define the User schema
+const userSchema = new Schema({
+  userId: {
+    type: Schema.Types.UUID,
+    default: mongoose.Types.UUID, // Use UUID for unique identifiers
+    required: true,
+    unique: true // Ensure Id is unique
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true // Ensure email is unique
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  isPremium: {
+    type: Boolean,
+    default: false
+  },
+  totalExpense: {
+    type: Number,
+    default: 0 // Default to 0 if not provided
+  }
+});
 
-module.exports=Users;
+
+const Users = mongoose.model('Users', userSchema);
+
+module.exports = Users;

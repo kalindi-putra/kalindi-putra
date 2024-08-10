@@ -1,36 +1,27 @@
-const { Sequelize, DataTypes} = require('sequelize');
-const {sequelize }=require('../util/db')
-const User=require('./user')
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+const User = require('./user'); // Ensure User model is correctly imported
 
-const forgotPassword = sequelize.define('forgotPassword', {
-    Id: {
-        type: DataTypes.UUID,
-        primaryKey: true
-        //autoIncrement: true // Optional, if you want this field to auto-increment
-      },
-    isActive: {
-      type: DataTypes.BOOLEAN,
-      //allowNull: false,
-       defaultValue:true
-    },
-    userId:{
-      type:DataTypes.INTEGER,
-      allowNull:false
-
+// Define the forgotPassword schema
+const forgotPasswordSchema = new Schema({
+  Id: {
+    type: Schema.Types.UUID,
+    default: mongoose.Types.UUID, // Use UUID for unique identifiers
+    required: true,
+    unique: true // Ensure Id is unique
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  userId: {
+    type: Schema.Types.UUID,
+    ref: 'User', // Reference to the User model
+    required: true
   }
+});
 
-  });
-//creating relation 
+// Create the forgotPassword model
+const forgotPassword = mongoose.model('forgotPassword', forgotPasswordSchema);
 
-
-
-(async ()=>{
-    try{ 
-        await  sequelize.sync({force:false}) 
-        console.log('model sync success');
-}
-    catch(err){
-        console.log(err);}
-})();
-
-module.exports=forgotPassword;
+module.exports = forgotPassword;

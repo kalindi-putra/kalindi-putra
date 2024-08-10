@@ -4,7 +4,7 @@ async function Check_password(event)
     try{
 
      const email=document.getElementById('email').value;
-     const res=await axios.post('http://18.232.215.9:3000/user/forgot-password',{ email })
+     const res=await axios.post('http://localhost:8000/user/forgot-password',{ email })
 
         alert(res.data.message)
 
