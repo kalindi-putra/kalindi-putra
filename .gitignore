@@ -7,3 +7,5 @@ EC2.pem
 acccess.log
 backend/acccess.log
 GROUP_CHAT
+config.js
+.Other/
