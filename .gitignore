@@ -9,3 +9,4 @@ backend/acccess.log
 GROUP_CHAT
 config.js
 .Other/
+*.go

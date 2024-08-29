@@ -47,7 +47,9 @@ router.post('/',async (req,res)=>{
             console.log('Reached generate token');
              
 
-            const token = generateToken({ email:email, IsPremium:User.isPremium}, secret); //issue here???
+      const token = generateToken({ email:email, IsPremium:User.isPremium}, secret); //issue here???
+
+   // const token = generateToken({ email:email}, secret); //issue here???
 
                 console.log('Token >>>>>>>',token)            
 
@@ -64,7 +66,7 @@ router.post('/',async (req,res)=>{
 
     catch(err)
     {
-        
+        console.log(err)
     return  res.status(500).json(err);
 }
 });

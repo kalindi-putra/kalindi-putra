@@ -5,10 +5,9 @@ const auth = require('../../middleware/auth'); // Import your authentication mid
 
 router.get('/', auth, async (req, res) => {
     try {
-        // Fetch all users, select specific fields, and sort by totalExpense in descending order
         const users = await User.find({})
-            .select('totalExpense name') // Specify fields to include
-            .sort({ totalExpense: -1 }) // Sort by totalExpense in descending order
+            .select('totalExpense name') 
+            .sort({ totalExpense: -1 }) 
             .exec();
 
         console.log(JSON.stringify(users));

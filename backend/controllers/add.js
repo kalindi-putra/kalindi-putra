@@ -30,8 +30,7 @@ router.post('/', async (req, res) => {
     // const check=await model.findAll({where:{phone:req.body.phone}});
     const { name, email, pass } = req.body;
 
-    // console.log(req.body);
-    console.log(name, email, pass);
+    console.log(req.body);
     if (name === undefined || email === undefined || pass === undefined) {
       console.log(req.body);
       return res.status(204).json({ message: "Pls fill all values" });
