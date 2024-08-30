@@ -10,3 +10,4 @@ GROUP_CHAT
 config.js
 .Other/
 *.go
+fullstack/
